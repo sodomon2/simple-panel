@@ -216,6 +216,7 @@ static gchar *find_example_config(void) {
         "../data/config.ini",                   // Directorio padre
         "./data/config.ini",                   // Directorio actual
         "/usr/share/simple-panel/config.ini", // Instalación del sistema
+        "/usr/local/share/simple-panel/config.ini", // Instalación local
         NULL
     };
     
