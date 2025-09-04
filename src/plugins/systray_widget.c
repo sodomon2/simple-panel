@@ -396,11 +396,18 @@ static const GDBusInterfaceVTable watcher_interface_vtable = {
     .set_property = NULL
 };
 
+// Forward declarations
+static void discover_existing_tray_items(SystrayWidget *systray);
+
 // Callbacks simplificados para DBus
 static void on_watcher_registered(GDBusConnection *connection G_GNUC_UNUSED, const gchar *name G_GNUC_UNUSED, gpointer user_data) {
     SystrayWidget *systray = SYSTRAY_WIDGET(user_data);
-    g_print("✓ StatusNotifierWatcher registrado\n");
+    
+    // Emitir señal de que el host está registrado
     g_dbus_connection_emit_signal(systray->dbus_connection, NULL, WATCHER_PATH, WATCHER_INTERFACE, "StatusNotifierHostRegistered", NULL, NULL);
+    
+    // CRÍTICO: Buscar aplicaciones existentes que ya estén ejecutándose
+    discover_existing_tray_items(systray);
 }
 
 static void on_watcher_name_lost(GDBusConnection *connection G_GNUC_UNUSED, const gchar *name, gpointer user_data G_GNUC_UNUSED) {
@@ -488,6 +495,85 @@ static void systray_widget_init(SystrayWidget *self) {
     g_object_unref(css_provider);
     
     init_dbus_connection(self);
+}
+
+// Detectar automáticamente aplicaciones existentes con StatusNotifierItem
+static void discover_existing_tray_items(SystrayWidget *systray) {
+    if (!systray->dbus_connection) return;
+    
+    GError *error = NULL;
+    GVariant *result = g_dbus_connection_call_sync(
+        systray->dbus_connection,
+        "org.freedesktop.DBus",  // DBus daemon
+        "/org/freedesktop/DBus", 
+        "org.freedesktop.DBus",
+        "ListNames",             // Obtener lista de todos los servicios
+        NULL,
+        G_VARIANT_TYPE("(as)"),
+        G_DBUS_CALL_FLAGS_NONE,
+        -1,
+        NULL,
+        &error
+    );
+    
+    if (error) {
+        g_error_free(error);
+        return;
+    }
+    
+    GVariantIter *iter;
+    g_variant_get(result, "(as)", &iter);
+    
+    const gchar *service_name;
+    while (g_variant_iter_loop(iter, "s", &service_name)) {
+        // Buscar servicios que implementen StatusNotifierItem
+        if (g_str_has_prefix(service_name, ":") ||  // Skip unique names
+            g_strcmp0(service_name, "org.freedesktop.DBus") == 0 ||
+            g_strcmp0(service_name, WATCHER_SERVICE) == 0) {
+            continue;
+        }
+        
+        // Verificar si el servicio implementa StatusNotifierItem
+        GError *introspect_error = NULL;
+        GVariant *introspect_result = g_dbus_connection_call_sync(
+            systray->dbus_connection,
+            service_name,
+            "/StatusNotifierItem",  // Path estándar
+            "org.freedesktop.DBus.Introspectable",
+            "Introspect",
+            NULL,
+            G_VARIANT_TYPE("(s)"),
+            G_DBUS_CALL_FLAGS_NONE,
+            1000,  // 1 second timeout
+            NULL,
+            &introspect_error
+        );
+        
+        if (introspect_result) {
+            const gchar *xml_data;
+            g_variant_get(introspect_result, "(&s)", &xml_data);
+            
+            // Verificar si contiene la interfaz StatusNotifierItem
+            if (g_strstr_len(xml_data, -1, "org.kde.StatusNotifierItem")) {
+                // ¡Encontrada aplicación existente! Registrarla automáticamente
+                systray->registered_items = g_slist_append(systray->registered_items, g_strdup(service_name));
+                create_tray_item(systray, service_name);
+                
+                // Emitir señal de registro
+                g_dbus_connection_emit_signal(systray->dbus_connection, NULL, WATCHER_PATH, WATCHER_INTERFACE,
+                                             "StatusNotifierItemRegistered", g_variant_new("(s)", service_name), NULL);
+            }
+            
+            g_variant_unref(introspect_result);
+        }
+        
+        if (introspect_error) {
+            g_error_free(introspect_error);
+        }
+    }
+    
+    g_variant_iter_free(iter);
+    g_variant_unref(result);
 }
 
 static void systray_widget_dispose(GObject *object) {
