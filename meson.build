@@ -20,7 +20,7 @@ status_service_resources = gnome.compile_resources(
 )
 
 # wlr-protocols para tasklist
-wlr_protocols = dependency('wlr-protocols', version: '>= 0.1', required: false)
+wlr_protocols = dependency('wlr-protocols', version: '>= 0.1', required: true)
 wlr_protocols_dir = wlr_protocols.get_variable('pkgdatadir')
 
 # Generate protocol headers para tasklist

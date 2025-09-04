@@ -13,5 +13,6 @@ ninja -C build
 ## Dependencies
 
 - [GTK4](https://www.gtk.org/)
-- [Gio](https://developer.gnome.org/gio/stable/)
-- [GtkLayerShell](https://github.com/wmww/gtk4-layer-shell)
+- [GIO](https://developer.gnome.org/gio/stable/)
+- [Gtk4LayerShell](https://github.com/wmww/gtk4-layer-shell)
+- [wlr-protocols](https://gitlab.freedesktop.org/wlroots/wlr-protocols)
