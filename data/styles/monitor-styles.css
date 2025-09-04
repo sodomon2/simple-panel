@@ -1,0 +1,40 @@
+/* System Monitor Widgets CSS */
+
+/* RAM Monitor Progress Bar */
+.ram-monitor-bar {
+    min-width: 6px;
+    min-height: 35px;
+    border-radius: 3px;
+    background: transparent;
+    margin: 2px;
+}
+
+.ram-monitor-bar progress {
+    background: linear-gradient(to top, #4CAF50, #8BC34A);
+    border-radius: 3px;
+}
+
+.ram-monitor-bar trough {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    min-width: 6px;
+    min-height: 35px;
+}
+
+/* CPU Monitor Graph */
+.cpu-monitor-graph {
+    min-width: 36px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.05);
+    margin: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Network Monitor Graph */
+.net-monitor-graph {
+    min-width: 36px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.05);
+    margin: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}

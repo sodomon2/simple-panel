@@ -5,6 +5,9 @@
 #include "plugins/clock_widget.h"
 #include "plugins/tasklist_widget.h"
 #include "plugins/showdesktop_widget.h"
+#include "plugins/ram_monitor_widget.h"
+#include "plugins/cpu_monitor_widget.h"
+#include "plugins/net_monitor_widget.h"
 #include "config.h"
 #include <gtk4-layer-shell.h>
 
@@ -20,6 +23,12 @@ struct _PanelWindow {
     GtkWidget *app_menu_button;
     GtkWidget *launcher_widget;
     GtkWidget *tasklist_widget;
+    
+    // System Monitor widgets
+    GtkWidget *ram_monitor_widget;
+    GtkWidget *cpu_monitor_widget;
+    GtkWidget *net_monitor_widget;
+    
     GtkWidget *systray_widget;
     GtkWidget *clock_widget;
     GtkWidget *showdesktop_widget;
@@ -135,6 +144,26 @@ static void panel_window_init(PanelWindow *self) {
     self->tasklist_widget = GTK_WIDGET(tasklist_widget_new(self->config));
     gtk_widget_set_hexpand(self->tasklist_widget, TRUE); // Para que ocupe el espacio sobrante
     gtk_box_append(self->main_box, self->tasklist_widget);
+    
+    // --- System Monitor Widgets ---
+    
+    // Plugin: RAM Monitor - solo si está habilitado
+    if (self->config->ram_monitor_enable) {
+        self->ram_monitor_widget = ram_monitor_widget_new();
+        gtk_box_append(self->main_box, self->ram_monitor_widget);
+    }
+    
+    // Plugin: CPU Monitor - solo si está habilitado
+    if (self->config->cpu_monitor_enable) {
+        self->cpu_monitor_widget = cpu_monitor_widget_new();
+        gtk_box_append(self->main_box, self->cpu_monitor_widget);
+    }
+    
+    // Plugin: Network Monitor - solo si está habilitado
+    if (self->config->net_monitor_enable) {
+        self->net_monitor_widget = net_monitor_widget_new();
+        gtk_box_append(self->main_box, self->net_monitor_widget);
+    }
     
     // Plugin: Área de Notificación (System Tray) - solo si está habilitado
     if (self->config->systray_enable) {

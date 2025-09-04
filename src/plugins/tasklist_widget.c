@@ -37,8 +37,8 @@ struct _TasklistWidget {
 #endif
     
     // Task management
-    GSList *task_items;         // Lista de TaskItems
-    TaskItem *active_task;      // Ventana actualmente activa
+    GSList *task_items;
+    TaskItem *active_task;
 };
 
 G_DEFINE_TYPE(TasklistWidget, tasklist_widget, GTK_TYPE_BOX)

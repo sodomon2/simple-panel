@@ -8,6 +8,7 @@
     <file>styles/tasklist-styles.css</file>
     <file>styles/systray-styles.css</file>
     <file>styles/showdesktop-styles.css</file>
+    <file>styles/monitor-styles.css</file>
   </gresource>
   
   <gresource prefix="/io/gitlab/sodomon/simple_panel/status_service">

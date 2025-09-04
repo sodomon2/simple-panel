@@ -17,8 +17,7 @@ int main(int argc, char **argv) {
     int status;
 
     // Crea una nueva aplicación GTK. El ID debe ser único.
-    // G_APPLICATION_FLAGS_NONE está obsoleto, usamos G_APPLICATION_DEFAULT_FLAGS.
-    app = gtk_application_new("com.github.sodomon.simple_panel", G_APPLICATION_DEFAULT_FLAGS);
+    app = gtk_application_new("io.gitlab.sodomon.simple_panel", G_APPLICATION_DEFAULT_FLAGS);
 
     // Conecta la señal "activate" a nuestro callback on_activate
     g_signal_connect(app, "activate", G_CALLBACK(on_activate), NULL);

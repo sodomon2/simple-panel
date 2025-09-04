@@ -34,6 +34,11 @@ typedef struct _PanelConfig {
     
     // Show Desktop settings
     gboolean showdesktop_enable;
+    
+    // System Monitor widgets
+    gboolean ram_monitor_enable;
+    gboolean cpu_monitor_enable;
+    gboolean net_monitor_enable;
 } PanelConfig;
 
 // Functions

@@ -23,6 +23,10 @@ PanelConfig *panel_config_new(void) {
     config->systray_enable = FALSE;
     config->systray_icon_size = 0;
 
+    config->ram_monitor_enable = TRUE;
+    config->cpu_monitor_enable = TRUE; 
+    config->net_monitor_enable = TRUE;
+
     return config;
 }
 
@@ -130,6 +134,17 @@ gboolean panel_config_load(PanelConfig *config, const gchar *config_path) {
         load_bool_key(key_file, "showdesktop", "enable", &config->showdesktop_enable);
     }
     
+    // System Monitor widgets
+    if (g_key_file_has_group(key_file, "ram_monitor")) {
+        load_bool_key(key_file, "ram_monitor", "enable", &config->ram_monitor_enable);
+    }
+    if (g_key_file_has_group(key_file, "cpu_monitor")) {
+        load_bool_key(key_file, "cpu_monitor", "enable", &config->cpu_monitor_enable);
+    }
+    if (g_key_file_has_group(key_file, "net_monitor")) {
+        load_bool_key(key_file, "net_monitor", "enable", &config->net_monitor_enable);
+    }
+    
     // Aplicar valores por defecto para cualquier clave que falte
     apply_default_values(config);
     
@@ -172,6 +187,11 @@ gboolean panel_config_save(PanelConfig *config, const gchar *config_path) {
     
     // Configuración del show desktop
     g_key_file_set_boolean(key_file, "showdesktop", "enable", config->showdesktop_enable);
+    
+    // System Monitor widgets
+    g_key_file_set_boolean(key_file, "ram_monitor", "enable", config->ram_monitor_enable);
+    g_key_file_set_boolean(key_file, "cpu_monitor", "enable", config->cpu_monitor_enable);
+    g_key_file_set_boolean(key_file, "net_monitor", "enable", config->net_monitor_enable);
     
     // Crear directorio padre si no existe
     gchar *dir = g_path_get_dirname(config_path);
