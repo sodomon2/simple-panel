@@ -6,10 +6,17 @@
 
 G_BEGIN_DECLS
 
-typedef struct {
+typedef struct _PanelConfig {
     // Global settings
     gchar *edge;
     gint panel_size;
+    
+    // System commands (Computer menu)
+    gchar *lock_cmd;
+    gchar *suspend_cmd;
+    gchar *poweroff_cmd;
+    gchar *reboot_cmd;
+    gchar *logout_cmd;
     
     // Menu settings  
     gboolean menu_enable;

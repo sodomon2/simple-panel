@@ -118,7 +118,7 @@ static void panel_window_init(PanelWindow *self) {
 
     // Plugin: Menú principal (a la izquierda) - solo si está habilitado
     if (self->config->menu_enable) {
-        self->app_menu_button = app_menu_button_new(self->config->menu_icon);
+        self->app_menu_button = app_menu_button_new(self->config->menu_icon, self->config);
         gtk_box_append(self->main_box, self->app_menu_button);
     }
 

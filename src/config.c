@@ -31,6 +31,11 @@ void panel_config_free(PanelConfig *config) {
     if (!config) return;
     
     g_free(config->edge);
+    g_free(config->lock_cmd);
+    g_free(config->suspend_cmd);
+    g_free(config->poweroff_cmd);
+    g_free(config->reboot_cmd);
+    g_free(config->logout_cmd);
     g_free(config->menu_icon);
     g_free(config->clock_weight);
     g_free(config->clock_color);
@@ -91,6 +96,13 @@ gboolean panel_config_load(PanelConfig *config, const gchar *config_path) {
     if (g_key_file_has_group(key_file, "global")) {
         load_string_key(key_file, "global", "edge", &config->edge);
         load_int_key(key_file, "global", "size", &config->panel_size);
+        
+        // Cargar comandos del sistema para Computer menu
+        load_string_key(key_file, "global", "lock", &config->lock_cmd);
+        load_string_key(key_file, "global", "suspend", &config->suspend_cmd);
+        load_string_key(key_file, "global", "poweroff", &config->poweroff_cmd);
+        load_string_key(key_file, "global", "reboot", &config->reboot_cmd);
+        load_string_key(key_file, "global", "logout", &config->logout_cmd);
     }
     
     // Cargar configuración del menú
@@ -136,6 +148,13 @@ gboolean panel_config_save(PanelConfig *config, const gchar *config_path) {
     // Configuración global
     g_key_file_set_string(key_file, "global", "edge", config->edge);
     g_key_file_set_integer(key_file, "global", "size", config->panel_size);
+    
+    // Comandos del sistema para Computer menu
+    if (config->lock_cmd) g_key_file_set_string(key_file, "global", "lock", config->lock_cmd);
+    if (config->suspend_cmd) g_key_file_set_string(key_file, "global", "suspend", config->suspend_cmd);
+    if (config->poweroff_cmd) g_key_file_set_string(key_file, "global", "poweroff", config->poweroff_cmd);
+    if (config->reboot_cmd) g_key_file_set_string(key_file, "global", "reboot", config->reboot_cmd);
+    if (config->logout_cmd) g_key_file_set_string(key_file, "global", "logout", config->logout_cmd);
     
     // Configuración del menú
     g_key_file_set_boolean(key_file, "menu-classic", "enable", config->menu_enable);
