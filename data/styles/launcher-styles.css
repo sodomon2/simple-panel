@@ -1,0 +1,26 @@
+/* Launcher Widget Styles */
+
+.launcher-button {
+    background: transparent;
+    border: none;
+    border-radius: 0px;
+    padding: 4px 6px;
+    margin: 0px 2px;
+    min-width: 24px;
+    min-height: 24px;
+}
+
+.launcher-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.launcher-button:active {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.launcher-separator {
+    background: rgba(255, 255, 255, 0.3);
+    min-width: 1px;
+    min-height: 20px;
+    margin: 6px 4px;
+}

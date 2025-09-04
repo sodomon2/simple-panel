@@ -301,27 +301,7 @@ static void apply_showdesktop_styles(void) {
     if (styles_applied) return;
     
     GtkCssProvider *provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_string(provider,
-        ".show-desktop-button {"
-        "  padding: 8px 12px;"
-        "  margin: 0 2px;"
-        "  border-radius: 4px;"
-        "  background: transparent;"
-        "  border: 1px solid transparent;"
-        "  transition: all 200ms ease;"
-        "}"
-        ".show-desktop-button:hover {"
-        "  background: rgba(255, 255, 255, 0.1);"
-        "  border-color: rgba(255, 255, 255, 0.2);"
-        "}"
-        ".show-desktop-button.active {"
-        "  background: rgba(255, 255, 255, 0.2);"
-        "  border-color: rgba(255, 255, 255, 0.3);"
-        "}"
-        ".show-desktop-button.active:hover {"
-        "  background: rgba(255, 255, 255, 0.25);"
-        "}"
-    );
+    gtk_css_provider_load_from_resource(provider, "/io/gitlab/sodomon/simple_panel/styles/showdesktop-styles.css");
     
     gtk_style_context_add_provider_for_display(gdk_display_get_default(),
                                               GTK_STYLE_PROVIDER(provider),

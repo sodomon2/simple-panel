@@ -1,0 +1,28 @@
+/* Panel Base Styles */
+
+/* Note: Clock button and label colors/sizes are applied dynamically via code */
+/* This file contains only the static base styles */
+
+/* Panel Window Base */
+.panel-window {
+    background: transparent;
+}
+
+/* Main Panel Box */
+.panel-box {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/* Clock Button Base Structure */
+.clock-button {
+    background: transparent;
+    border: none;
+    border-radius: 0px;
+    padding: 4px 8px;
+    /* color and other dynamic properties set via code */
+}
+
+.clock-label {
+    color: inherit;
+    /* font-size and font-weight set dynamically via code */
+}

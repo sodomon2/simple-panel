@@ -66,65 +66,9 @@ static void clock_widget_init(ClockWidget *self) {
     GtkWidget *calendar = gtk_calendar_new();
     gtk_popover_set_child(GTK_POPOVER(self->calendar_popover), calendar);
     
-    // Aplicar CSS para el calendario únicamente (el reloj se configura dinámicamente)
+    // Cargar CSS desde GResource
     GtkCssProvider *css_provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_string(css_provider,
-        "popover {"
-        "  background: #ffffff;"
-        "  border: none;"
-        "  box-shadow: 0 2px 8px rgba(0,0,0,0.2);"
-        "  border-radius: 0px;"
-        "  outline: none;"
-        "}"
-        "popover > contents {"
-        "  border: none;"
-        "  outline: none;"
-        "  background: #ffffff;"
-        "}"
-        "calendar {"
-        "  background: #ffffff;"
-        "  border: none;"
-        "  border-radius: 0px;"
-        "  color: #2d2d2d;"
-        "  outline: none;"
-        "}"
-        "calendar > header {"
-        "  background: #ffffff;"
-        "  color: #2d2d2d;"
-        "  border: none;"
-        "  outline: none;"
-        "}"
-        "calendar > grid {"
-        "  border: none;"
-        "  outline: none;"
-        "}"
-        "calendar > grid > label {"
-        "  color: #2d2d2d;"
-        "  border: none;"
-        "  outline: none;"
-        "}"
-        "calendar > grid > label:selected {"
-        "  background: #0078d4;"
-        "  color: white;"
-        "  border-radius: 0px;"
-        "  border: none;"
-        "  outline: none;"
-        "}"
-        "calendar > grid > label.today {"
-        "  background: #e3f2fd;"
-        "  color: #2d2d2d;"
-        "  font-weight: bold;"
-        "  border: none;"
-        "  outline: none;"
-        "}"
-        "calendar button {"
-        "  border: none;"
-        "  border-radius: 0px;"
-        "  background: transparent;"
-        "  color: #2d2d2d;"
-        "  outline: none;"
-        "}"
-    );
+    gtk_css_provider_load_from_resource(css_provider, "/io/gitlab/sodomon/simple_panel/styles/clock-styles.css");
     
     gtk_style_context_add_provider_for_display(
         gdk_display_get_default(),

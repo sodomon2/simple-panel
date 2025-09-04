@@ -6,7 +6,7 @@
 #include "plugins/tasklist_widget.h"
 #include "plugins/showdesktop_widget.h"
 #include "config.h"
-#include <gtk4-layer-shell.h> // Para el reloj
+#include <gtk4-layer-shell.h>
 
 // Definición de la estructura interna de nuestro objeto PanelWindow
 struct _PanelWindow {
@@ -32,20 +32,25 @@ G_DEFINE_TYPE(PanelWindow, panel_window, GTK_TYPE_APPLICATION_WINDOW)
 static void panel_window_apply_clock_config(PanelWindow *self) {
     if (!self->clock_widget) return;
     
-    // Crear CSS dinámico para el reloj
+    // Cargar CSS base desde GResource
+    GtkCssProvider *base_css_provider = gtk_css_provider_new();
+    gtk_css_provider_load_from_resource(base_css_provider, "/io/gitlab/sodomon/simple_panel/styles/panel-base.css");
+    gtk_style_context_add_provider_for_display(
+        gdk_display_get_default(),
+        GTK_STYLE_PROVIDER(base_css_provider),
+        GTK_STYLE_PROVIDER_PRIORITY_APPLICATION
+    );
+    g_object_unref(base_css_provider);
+
+    // Crear CSS dinámico para el reloj (colores/tamaños desde config)
     GtkCssProvider *css_provider = gtk_css_provider_new();
     gchar *css_data = g_strdup_printf(
         ".clock-button {"
-        "  background: transparent;"
-        "  border: none;"
-        "  border-radius: 0px;"
-        "  padding: 4px 8px;"
         "  color: %s;"
         "}"
         ".clock-label {"
         "  font-size: %dpx;"
         "  font-weight: %s;"
-        "  color: inherit;"
         "}",
         self->config->clock_color,
         self->config->clock_size,

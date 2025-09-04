@@ -132,31 +132,9 @@ static void load_launcher_items(LauncherWidget *self) {
 
 // Crear widgets para los launchers
 static void create_launcher_widgets(LauncherWidget *self) {
-    // Aplicar CSS para el estilo de los launchers
+    // Cargar CSS desde GResource
     GtkCssProvider *css_provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_string(css_provider,
-        ".launcher-button {"
-        "  background: transparent;"
-        "  border: none;"
-        "  border-radius: 0px;"
-        "  padding: 4px 6px;"
-        "  margin: 0px 2px;"
-        "  min-width: 24px;"
-        "  min-height: 24px;"
-        "}"
-        ".launcher-button:hover {"
-        "  background: rgba(255, 255, 255, 0.1);"
-        "}"
-        ".launcher-button:active {"
-        "  background: rgba(255, 255, 255, 0.2);"
-        "}"
-        ".launcher-separator {"
-        "  background: rgba(255, 255, 255, 0.3);"
-        "  min-width: 1px;"
-        "  min-height: 20px;"
-        "  margin: 6px 4px;"
-        "}"
-    );
+    gtk_css_provider_load_from_resource(css_provider, "/io/gitlab/sodomon/simple_panel/styles/launcher-styles.css");
     
     gtk_style_context_add_provider_for_display(
         gdk_display_get_default(),

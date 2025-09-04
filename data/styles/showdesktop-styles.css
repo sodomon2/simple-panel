@@ -1,0 +1,20 @@
+/* Show Desktop Widget Styles */
+
+.show-desktop-button {
+    padding: 8px 12px;
+    margin: 0 2px;
+    border-radius: 4px;
+    background: transparent;
+    border: 1px solid transparent;
+    transition: all 200ms ease;
+}
+
+.show-desktop-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.show-desktop-button.active {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}

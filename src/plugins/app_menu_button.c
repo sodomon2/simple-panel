@@ -43,12 +43,9 @@ static void execute_system_command(const gchar *command) {
     gboolean success = g_spawn_command_line_async(shell_command, &error);
     
     if (!success) {
-        g_print("ERROR ejecutando '%s': %s\n", command, error ? error->message : "Unknown");
         if (error) {
             g_error_free(error);
         }
-    } else {
-        g_print("Ejecutando: %s\n", command);
     }
     
     g_free(shell_command);
@@ -236,6 +233,7 @@ static void app_menu_button_init(AppMenuButton *self) {
     self->menu_button = gtk_button_new();
     gtk_button_set_icon_name(GTK_BUTTON(self->menu_button), "start-here-symbolic");
     gtk_widget_set_tooltip_text(self->menu_button, "Menú de Aplicaciones");
+    gtk_widget_add_css_class(self->menu_button, "app-menu-button");
     gtk_box_append(GTK_BOX(self), self->menu_button);
 
     // Crear el menú principal como popover simple con botones
@@ -255,48 +253,9 @@ static void app_menu_button_init(AppMenuButton *self) {
     g_signal_connect(click_gesture, "pressed", G_CALLBACK(on_main_menu_click), self);
     gtk_widget_add_controller(main_box, GTK_EVENT_CONTROLLER(click_gesture));
 
-    // Aplicar CSS optimizado para estilo clásico
+    // Cargar CSS desde GResource
     GtkCssProvider *css_provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_string(css_provider,
-        /* Base común para popovers */
-        "popover.menu-popover, popover.menu-popover > contents {"
-        "  border-radius: 0px;"
-        "  border: none;"
-        "  background: #f8f8f8;"
-        "  padding: 0px;"
-        "}"
-        "popover.menu-popover {"
-        "  box-shadow: 2px 2px 8px rgba(0,0,0,0.3);"
-        "}"
-        /* Base común para botones de menú */
-        ".menu-category-button, .menu-app-button {"
-        "  border-radius: 0px;"
-        "  margin: 0px;"
-        "  background: transparent;"
-        "  border: none;"
-        "  color: #2d2d2d;"
-        "}"
-        ".menu-category-button:hover, .menu-app-button:hover {"
-        "  background: #0078d4;"
-        "  color: white;"
-        "}"
-        /* Estilos específicos */
-        ".menu-category-button {"
-        "  padding: 6px 12px 6px 8px;"
-        "  min-width: 180px;"
-        "  font-size: 13px;"
-        "}"
-        ".menu-app-button {"
-        "  padding: 4px 8px 4px 6px;"
-        "  min-width: 160px;"
-        "  font-size: 12px;"
-        "}"
-        /* Elementos internos */
-        ".menu-category-button label, .menu-category-button image,"
-        ".menu-app-button label, .menu-app-button image {"
-        "  color: inherit;"
-        "}"
-    );
+    gtk_css_provider_load_from_resource(css_provider, "/io/gitlab/sodomon/simple_panel/styles/menu-styles.css");
     
     gtk_style_context_add_provider_for_display(
         gdk_display_get_default(),
@@ -316,8 +275,6 @@ static void build_main_menu(AppMenuButton *self) {
     
     // Obtener el main_box del popover
     GtkWidget *main_box = gtk_popover_get_child(GTK_POPOVER(self->main_menu));
-
-    // 🚀 CREAR CATEGORÍAS SIMPLES - Enfoque fbpanel
     GHashTable *categories = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_object_unref);
     
     // Recopilar aplicaciones por categoría
@@ -475,7 +432,7 @@ static void build_main_menu(AppMenuButton *self) {
     g_list_free_full(app_infos, g_object_unref);
     g_hash_table_destroy(categories);
 
-    // ✨ COMPUTER MENU - Añadir al FINAL del menú
+    // Añadir al FINAL del menú
     GtkWidget *separator = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
     gtk_box_append(GTK_BOX(main_box), separator);
     
@@ -495,7 +452,7 @@ static void build_main_menu(AppMenuButton *self) {
     gtk_button_set_child(GTK_BUTTON(computer_button), computer_box);
     gtk_box_append(GTK_BOX(main_box), computer_button);
     
-    // Crear submenu Computer con eventos CORREGIDOS
+    // Crear submenu Computer
     GtkWidget *computer_menu = create_computer_submenu(self);
     if (computer_menu) {
         gtk_widget_set_parent(computer_menu, computer_button);
@@ -568,7 +525,7 @@ GtkWidget *app_menu_button_new(const gchar *icon_name, PanelConfig *config) {
     // Establecer configuración ANTES de construir menú
     button->config = config;
     
-    // 🎯 AHORA construir el menú con la config disponible
+    // Construir el menú con la config disponible
     build_main_menu(button);
         
     return GTK_WIDGET(button);

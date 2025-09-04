@@ -18,7 +18,7 @@ typedef struct {
     struct zwlr_foreign_toplevel_handle_v1 *toplevel_handle;
 #endif
     
-    TasklistWidget *tasklist;   // Referencia al widget padre
+    TasklistWidget *tasklist;
 } TaskItem;
 
 // Estructura principal del widget
@@ -601,29 +601,7 @@ static void apply_tasklist_styles(void) {
     if (styles_applied) return;
     
     GtkCssProvider *css_provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_string(css_provider,
-        ".task-button {"
-        "  padding: 4px 8px;"
-        "  margin: 0 2px;"
-        "  min-width: 100px;"
-        "  border-radius: 4px;"
-        "  background: rgba(255,255,255,0.1);"
-        "  border: 1px solid transparent;"
-        "  transition: all 200ms ease;"
-        "}"
-        ".task-button:hover {"
-        "  background: rgba(255,255,255,0.2);"
-        "  border-color: rgba(255,255,255,0.3);"
-        "}"
-        ".task-button.active {"
-        "  background: #0078d4;"
-        "  color: white;"
-        "  border-color: #106ebe;"
-        "}"
-        ".task-button.minimized {"
-        "  opacity: 0.6;"
-        "}"
-    );
+    gtk_css_provider_load_from_resource(css_provider, "/io/gitlab/sodomon/simple_panel/styles/tasklist-styles.css");
     
     gtk_style_context_add_provider_for_display(
         gdk_display_get_default(),

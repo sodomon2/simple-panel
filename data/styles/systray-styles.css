@@ -1,0 +1,19 @@
+/* System Tray Widget Styles */
+
+.systray-item {
+    background: transparent;
+    border: none;
+    border-radius: 0px;
+    padding: 2px 4px;
+    margin: 0px 1px;
+    min-width: 22px;
+    min-height: 22px;
+}
+
+.systray-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.systray-item:active {
+    background: rgba(255, 255, 255, 0.2);
+}

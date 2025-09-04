@@ -21,7 +21,7 @@ typedef struct {
     GtkWidget *button;
     GtkWidget *icon_widget;
     GDBusProxy *proxy;
-    guint name_watcher_id;  // Para monitorear desconexión
+    guint name_watcher_id;
     SystrayWidget *systray;
 } TrayItem;
 
@@ -319,7 +319,7 @@ static void remove_tray_item(SystrayWidget *systray, const gchar *service_name) 
 // Cargar XML de introspección desde recursos
 static gchar *load_watcher_introspection_xml(void) {
     GBytes *xml_bytes = g_resources_lookup_data(
-        "/com/github/sodomon/simple_panel/status_service/StatusNotifierWatcher.xml",
+        "/io/gitlab/sodomon/simple_panel/status_service/service/StatusNotifierWatcher.xml",
         G_RESOURCE_LOOKUP_FLAGS_NONE,
         NULL
     );
@@ -468,23 +468,7 @@ static void systray_widget_init(SystrayWidget *self) {
     
     // Aplicar CSS para el systray
     GtkCssProvider *css_provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_string(css_provider,
-        ".systray-item {"
-        "  background: transparent;"
-        "  border: none;"
-        "  border-radius: 0px;"
-        "  padding: 2px 4px;"
-        "  margin: 0px 1px;"
-        "  min-width: 22px;"
-        "  min-height: 22px;"
-        "}"
-        ".systray-item:hover {"
-        "  background: rgba(255, 255, 255, 0.1);"
-        "}"
-        ".systray-item:active {"
-        "  background: rgba(255, 255, 255, 0.2);"
-        "}"
-    );
+    gtk_css_provider_load_from_resource(css_provider, "/io/gitlab/sodomon/simple_panel/styles/systray-styles.css");
     
     gtk_style_context_add_provider_for_display(
         gdk_display_get_default(),

@@ -12,11 +12,11 @@ layershell_dep = dependency('gtk4-layer-shell-0')
 wayland_scanner = dependency('wayland-scanner', native: true)
 wayland_scanner_prog = find_program(wayland_scanner.get_variable('wayland_scanner'))
 
-# Compilar recursos XML del status service
-status_service_resources = gnome.compile_resources(
-  'status-service-resources',
-  'data/status_service/status_service.gresource.xml',
-  source_dir: 'data/status_service'
+# Compilar recursos del panel principal
+simple_panel_resources = gnome.compile_resources(
+  'simple-panel-resources',
+  'data/simple_panel.gresource.xml',
+  source_dir: 'data'
 )
 
 # wlr-protocols para tasklist
@@ -57,7 +57,7 @@ executable('simple-panel',
   'src/plugins/tasklist_widget.c',
   'src/plugins/showdesktop_widget.c',
   'src/config.c',
-  status_service_resources,
+  simple_panel_resources,
   tasklist_sources,
   dependencies : [gtk_dep, gio_unix_dep, layershell_dep] + tasklist_deps,
   c_args: ['-DHAVE_WLR_PROTOCOLS'],

@@ -1,0 +1,79 @@
+/* Clock Widget and Calendar Styles */
+
+/* Calendar Popover */
+popover {
+    background: #ffffff;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    border-radius: 0px;
+    outline: none;
+}
+
+popover > contents {
+    border: none;
+    outline: none;
+    background: #ffffff;
+}
+
+/* Calendar Widget */
+calendar {
+    background: #ffffff;
+    border: none;
+    border-radius: 0px;
+    color: #2d2d2d;
+    outline: none;
+}
+
+calendar > header {
+    background: #ffffff;
+    color: #2d2d2d;
+    border: none;
+    outline: none;
+}
+
+calendar > grid {
+    border: none;
+    outline: none;
+}
+
+calendar > grid > label {
+    color: #2d2d2d;
+    border: none;
+    outline: none;
+}
+
+calendar > grid > label:selected {
+    background: #0078d4;
+    color: white;
+    border-radius: 0px;
+    border: none;
+    outline: none;
+}
+
+calendar > grid > label.today {
+    background: #e3f2fd;
+    color: #2d2d2d;
+    font-weight: bold;
+    border: none;
+    outline: none;
+}
+
+calendar button {
+    border: none;
+    border-radius: 0px;
+    background: transparent;
+    color: #2d2d2d;
+    outline: none;
+}
+
+/* Clock Button Base (dynamic styles applied via code) */
+.clock-button {
+    background: transparent;
+    border: none;
+    border-radius: 0px;
+    padding: 4px 8px;
+}
+
+.clock-label {
+    color: inherit;
+}

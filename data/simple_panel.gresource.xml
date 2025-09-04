@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/io/gitlab/sodomon/simple_panel">
+    <file>styles/panel-base.css</file>
+    <file>styles/menu-styles.css</file>
+    <file>styles/clock-styles.css</file>
+    <file>styles/launcher-styles.css</file>
+    <file>styles/tasklist-styles.css</file>
+    <file>styles/systray-styles.css</file>
+    <file>styles/showdesktop-styles.css</file>
+  </gresource>
+  
+  <gresource prefix="/io/gitlab/sodomon/simple_panel/status_service">
+      <file>service/StatusNotifierWatcher.xml</file>
+      <file>service/StatusNotifierItem.xml</file>
+  </gresource>
+</gresources>

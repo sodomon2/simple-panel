@@ -1,0 +1,26 @@
+/* Tasklist Widget Styles */
+
+.task-button {
+    padding: 4px 8px;
+    margin: 0 2px;
+    min-width: 100px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid transparent;
+    transition: all 200ms ease;
+}
+
+.task-button:hover {
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.3);
+}
+
+.task-button.active {
+    background: #0078d4;
+    color: white;
+    border-color: #106ebe;
+}
+
+.task-button.minimized {
+    opacity: 0.6;
+}
