@@ -18,6 +18,9 @@ PanelConfig *panel_config_new(void) {
     config->clock_weight = NULL;
     config->clock_color = NULL;
     
+    config->systray_enable = FALSE;
+    config->systray_icon_size = 0;
+
     return config;
 }
 
@@ -59,6 +62,8 @@ static void apply_default_values(PanelConfig *config) {
     
     if (!config->menu_icon) config->menu_icon = g_strdup("start-here-symbolic");
     
+    if (config->systray_icon_size <= 0) config->systray_icon_size = 22;
+    
     if (config->clock_size <= 0) config->clock_size = 13;
     if (!config->clock_weight) config->clock_weight = g_strdup("normal");
     if (!config->clock_color) config->clock_color = g_strdup("white");
@@ -92,6 +97,12 @@ gboolean panel_config_load(PanelConfig *config, const gchar *config_path) {
         load_string_key(key_file, "menu-classic", "icon", &config->menu_icon);
     }
     
+    // Cargar configuración del system tray
+    if (g_key_file_has_group(key_file, "systray")) {
+        load_bool_key(key_file, "systray", "enable", &config->systray_enable);
+        load_int_key(key_file, "systray", "icon_size", &config->systray_icon_size);
+    }
+    
     // Cargar configuración del reloj
     if (g_key_file_has_group(key_file, "clock")) {
         load_bool_key(key_file, "clock", "enable", &config->clock_enable);
@@ -122,6 +133,10 @@ gboolean panel_config_save(PanelConfig *config, const gchar *config_path) {
     // Configuración del menú
     g_key_file_set_boolean(key_file, "menu-classic", "enable", config->menu_enable);
     g_key_file_set_string(key_file, "menu-classic", "icon", config->menu_icon);
+    
+    // Configuración del system tray
+    g_key_file_set_boolean(key_file, "systray", "enable", config->systray_enable);
+    g_key_file_set_integer(key_file, "systray", "icon_size", config->systray_icon_size);
     
     // Configuración del reloj
     g_key_file_set_boolean(key_file, "clock", "enable", config->clock_enable);
@@ -202,6 +217,9 @@ void panel_config_create_default(const gchar *config_path) {
             "[menu-classic]\n"
             "enable=true\n"
             "icon=start-here-symbolic\n\n"
+            "[systray]\n"
+            "enable=true\n"
+            "icon_size=22\n\n"
             "[clock]\n"
             "enable=true\n"
             "size=13\n"

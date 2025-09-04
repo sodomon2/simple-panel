@@ -2,6 +2,7 @@
 #include "plugins/app_menu_button.h"
 #include "plugins/clock_widget.h"
 #include "plugins/launcher_widget.h"
+#include "plugins/systray_widget.h"
 #include "config.h"
 #include <gtk4-layer-shell.h> // Para el reloj
 
@@ -16,6 +17,7 @@ struct _PanelWindow {
     GtkBox *main_box;
     GtkWidget *app_menu_button;
     GtkWidget *launcher_widget;
+    GtkWidget *systray_widget;
     GtkWidget *clock_widget;
     
     // Placeholders para otros plugins
@@ -133,11 +135,11 @@ static void panel_window_init(PanelWindow *self) {
     gtk_box_append(self->task_list_box, task_label);
     gtk_box_append(self->main_box, GTK_WIDGET(self->task_list_box));
 
-    // Plugin: Área de Notificación (placeholder)
-    self->systray_box = GTK_BOX(gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6));
-    GtkWidget *systray_label = gtk_label_new("(Área de Notificación)");
-    gtk_box_append(self->systray_box, systray_label);
-    gtk_box_append(self->main_box, GTK_WIDGET(self->systray_box));
+    // Plugin: Área de Notificación (System Tray) - solo si está habilitado
+    if (self->config->systray_enable) {
+        self->systray_widget = systray_widget_new(self->config);
+        gtk_box_append(self->main_box, self->systray_widget);
+    }
 
     // Plugin: Reloj (a la derecha) - solo si está habilitado
     if (self->config->clock_enable) {

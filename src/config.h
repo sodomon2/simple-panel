@@ -11,9 +11,13 @@ typedef struct {
     gchar *edge;
     gint panel_size;
     
-    // Menu settings
+    // Menu settings  
     gboolean menu_enable;
     gchar *menu_icon;
+    
+    // System Tray settings
+    gboolean systray_enable;
+    gint systray_icon_size;
     
     // Clock settings
     gboolean clock_enable;

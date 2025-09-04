@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node>
+    <interface name="org.kde.StatusNotifierItem">
+        <!-- Methods -->
+        <method name="Activate">
+            <arg direction="in" name="x" type="i"/>
+            <arg direction="in" name="y" type="i"/>
+        </method>
+        
+        <method name="ContextMenu">
+            <arg direction="in" name="x" type="i"/>
+            <arg direction="in" name="y" type="i"/>
+        </method>
+        
+        <method name="Scroll">
+            <arg direction="in" name="delta" type="i"/>
+            <arg direction="in" name="orientation" type="s"/>
+        </method>
+        
+        <!-- Signals -->
+        <signal name="NewTitle">
+        </signal>
+        
+        <signal name="NewIcon">
+        </signal>
+        
+        <signal name="NewStatus">
+            <arg name="status" type="s"/>
+        </signal>
+        
+        <!-- Properties -->
+        <property name="Category" type="s" access="read"/>
+        <property name="Id" type="s" access="read"/>
+        <property name="Title" type="s" access="read"/>
+        <property name="Status" type="s" access="read"/>
+        <property name="WindowId" type="i" access="read"/>
+        <property name="IconName" type="s" access="read"/>
+        <property name="IconPixmap" type="a(iiay)" access="read"/>
+        <property name="OverlayIconName" type="s" access="read"/>
+        <property name="OverlayIconPixmap" type="a(iiay)" access="read"/>
+        <property name="AttentionIconName" type="s" access="read"/>
+        <property name="AttentionIconPixmap" type="a(iiay)" access="read"/>
+        <property name="AttentionMovieName" type="s" access="read"/>
+        <property name="ToolTip" type="(sa(iiay)ss)" access="read"/>
+    </interface>
+</node>
