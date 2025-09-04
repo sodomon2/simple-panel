@@ -24,6 +24,9 @@ typedef struct {
     gint clock_size;
     gchar *clock_weight;
     gchar *clock_color;
+    
+    // Show Desktop settings
+    gboolean showdesktop_enable;
 } PanelConfig;
 
 // Functions

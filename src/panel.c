@@ -1,16 +1,17 @@
 #include "panel.h"
 #include "plugins/app_menu_button.h"
-#include "plugins/clock_widget.h"
 #include "plugins/launcher_widget.h"
 #include "plugins/systray_widget.h"
+#include "plugins/clock_widget.h"
 #include "plugins/tasklist_widget.h"
+#include "plugins/showdesktop_widget.h"
 #include "config.h"
 #include <gtk4-layer-shell.h> // Para el reloj
 
 // Definición de la estructura interna de nuestro objeto PanelWindow
 struct _PanelWindow {
     GtkApplicationWindow parent_instance;
-
+    
     // Configuración
     PanelConfig *config;
     
@@ -21,6 +22,7 @@ struct _PanelWindow {
     GtkWidget *tasklist_widget;
     GtkWidget *systray_widget;
     GtkWidget *clock_widget;
+    GtkWidget *showdesktop_widget;
 };
 
 // Conecta la implementación con el sistema de tipos de GObject
@@ -128,13 +130,13 @@ static void panel_window_init(PanelWindow *self) {
     self->tasklist_widget = GTK_WIDGET(tasklist_widget_new(self->config));
     gtk_widget_set_hexpand(self->tasklist_widget, TRUE); // Para que ocupe el espacio sobrante
     gtk_box_append(self->main_box, self->tasklist_widget);
-
+    
     // Plugin: Área de Notificación (System Tray) - solo si está habilitado
     if (self->config->systray_enable) {
         self->systray_widget = systray_widget_new(self->config);
         gtk_box_append(self->main_box, self->systray_widget);
     }
-
+    
     // Plugin: Reloj (a la derecha) - solo si está habilitado
     if (self->config->clock_enable) {
         self->clock_widget = clock_widget_new();
@@ -143,6 +145,12 @@ static void panel_window_init(PanelWindow *self) {
         panel_window_apply_clock_config(self);
         
         gtk_box_append(self->main_box, self->clock_widget);
+    }
+
+    // Plugin: Show Desktop - solo si está habilitado
+    if (self->config->showdesktop_enable) {
+        self->showdesktop_widget = GTK_WIDGET(showdesktop_widget_new(self->config));
+        gtk_box_append(self->main_box, self->showdesktop_widget);
     }
 }
 

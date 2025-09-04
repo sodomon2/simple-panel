@@ -18,6 +18,8 @@ PanelConfig *panel_config_new(void) {
     config->clock_weight = NULL;
     config->clock_color = NULL;
     
+    config->showdesktop_enable = TRUE;
+    
     config->systray_enable = FALSE;
     config->systray_icon_size = 0;
 
@@ -111,6 +113,11 @@ gboolean panel_config_load(PanelConfig *config, const gchar *config_path) {
         load_string_key(key_file, "clock", "color", &config->clock_color);
     }
     
+    // Cargar configuración del show desktop
+    if (g_key_file_has_group(key_file, "showdesktop")) {
+        load_bool_key(key_file, "showdesktop", "enable", &config->showdesktop_enable);
+    }
+    
     // Aplicar valores por defecto para cualquier clave que falte
     apply_default_values(config);
     
@@ -144,6 +151,9 @@ gboolean panel_config_save(PanelConfig *config, const gchar *config_path) {
     g_key_file_set_string(key_file, "clock", "weight", config->clock_weight);
     g_key_file_set_string(key_file, "clock", "color", config->clock_color);
     
+    // Configuración del show desktop
+    g_key_file_set_boolean(key_file, "showdesktop", "enable", config->showdesktop_enable);
+    
     // Crear directorio padre si no existe
     gchar *dir = g_path_get_dirname(config_path);
     g_mkdir_with_parents(dir, 0755);
@@ -165,6 +175,7 @@ static gchar *find_example_config(void) {
     // Posibles ubicaciones del archivo de ejemplo
     const gchar *possible_paths[] = {
         "../data/config.ini",                   // Directorio padre
+        "./data/config.ini",                   // Directorio actual
         "/usr/share/simple-panel/config.ini", // Instalación del sistema
         NULL
     };

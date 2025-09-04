@@ -88,8 +88,6 @@ static void on_task_button_clicked(GtkButton *button G_GNUC_UNUSED, gpointer use
         return;
     }
     
-
-    
     // Comportamiento inteligente según el estado actual
     if (item->is_active && !item->is_minimized) {
         // Si está activa y no minimizada -> minimizar
