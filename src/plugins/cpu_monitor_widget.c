@@ -1,4 +1,5 @@
 #include "cpu_monitor_widget.h"
+#include "../i18n.h"
 #include <stdio.h>
 
 #define HISTORY_SIZE 30

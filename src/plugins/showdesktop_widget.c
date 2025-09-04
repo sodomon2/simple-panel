@@ -1,4 +1,5 @@
 #include "showdesktop_widget.h"
+#include "../i18n.h"
 #include <gtk/gtk.h>
 
 #ifdef HAVE_WLR_PROTOCOLS
@@ -333,7 +334,7 @@ static void showdesktop_widget_init(ShowDesktopWidget *self) {
     gtk_button_set_child(GTK_BUTTON(self->button), icon);
     
     // Tooltip
-    gtk_widget_set_tooltip_text(self->button, "Mostrar escritorio");
+    gtk_widget_set_tooltip_text(self->button, _("Show desktop"));
     
     // Conectar señal
     g_signal_connect(self->button, "clicked", G_CALLBACK(on_show_desktop_clicked), self);

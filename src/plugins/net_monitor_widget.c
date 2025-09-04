@@ -1,4 +1,5 @@
 #include "net_monitor_widget.h"
+#include "../i18n.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -90,9 +91,9 @@ static void update_tooltip(NetMonitorWidget *self) {
     }
     
     gchar *tooltip = g_strdup_printf(
-        "Network:\n"
+        _("Network:\n"
         "↓ %.1f %s\n"
-        "↑ %.1f %s",
+        "↑ %.1f %s"),
         rx_display, rx_unit,
         tx_display, tx_unit
     );

@@ -1,4 +1,5 @@
 #include "ram_monitor_widget.h"
+#include "../i18n.h"
 #include <stdio.h>
 
 struct _RamMonitorWidget {
@@ -47,9 +48,9 @@ static void read_memory_info(RamMonitorWidget *self) {
 
 static void update_tooltip(RamMonitorWidget *self) {
     gchar *tooltip = g_strdup_printf(
-        "RAM: %.1f GB / %.1f GB (%.1f%%)\n"
+        _("RAM: %.1f GB / %.1f GB (%.1f%%)\n"
         "Used: %.1f GB\n"
-        "Free: %.1f GB",
+        "Free: %.1f GB"),
         self->mem_used_gb, self->mem_total_gb, self->mem_percent,
         self->mem_used_gb, self->mem_free_gb
     );

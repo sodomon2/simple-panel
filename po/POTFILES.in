@@ -1,0 +1,7 @@
+# Files with translatable strings
+src/plugins/app_menu_button.c
+src/plugins/clock_widget.c
+src/plugins/cpu_monitor_widget.c
+src/plugins/net_monitor_widget.c
+src/plugins/ram_monitor_widget.c
+src/plugins/showdesktop_widget.c

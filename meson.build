@@ -3,8 +3,15 @@ project('simple-panel', 'c',
   default_options : ['c_std=c11', 'warning_level=2'])
 
 gnome = import('gnome')
+i18n = import('i18n')
 prefix = get_option('prefix')
+
+# i18n configuration
+add_project_arguments('-DGETTEXT_PACKAGE="simple-panel"', language: 'c')
+add_project_arguments('-DLOCALEDIR="' + join_paths(prefix, get_option('localedir')) + '"', language: 'c')
+
 subdir ('data')
+subdir ('po')
 
 # Dependencias
 gtk_dep = dependency('gtk4', version: '>= 4.8')
@@ -51,6 +58,7 @@ tasklist_deps = [dependency('wayland-client')]
 executable('simple-panel',
   'src/main.c',
   'src/panel.c',
+  'src/i18n.c',
   'src/plugins/app_menu_button.c',
   'src/plugins/clock_widget.c',
   'src/plugins/launcher_widget.c',

@@ -1,5 +1,6 @@
 #include "app_menu_button.h"
 #include "../config.h"
+#include "../i18n.h"
 #include <gio/gdesktopappinfo.h>
 
 typedef struct {
@@ -80,12 +81,12 @@ static GtkWidget* create_computer_submenu(AppMenuButton *self) {
         const gchar *icon;
         const gchar *command;
     } system_commands[] = {
-        {"lock", "Lock", "system-lock-screen", self->config->lock_cmd},
-        {"suspend", "Suspend", "system-suspend", self->config->suspend_cmd},
+        {"suspend", N_("Suspend"), "system-suspend", self->config->suspend_cmd},
+        {"reboot", N_("Reboot"), "system-reboot", self->config->reboot_cmd},
+        {"poweroff", N_("Shutdown"), "system-shutdown", self->config->poweroff_cmd},
         {NULL, NULL, NULL, NULL},
-        {"logout", "Logout", "system-log-out", self->config->logout_cmd},
-        {"reboot", "Reboot", "system-reboot", self->config->reboot_cmd},
-        {"poweroff", "Shutdown", "system-shutdown", self->config->poweroff_cmd},
+        {"lock", N_("Lock"), "system-lock-screen", self->config->lock_cmd},
+        {"logout", N_("Logout"), "system-log-out", self->config->logout_cmd},
     };
     
     int total_commands = sizeof(system_commands) / sizeof(system_commands[0]);
@@ -107,7 +108,7 @@ static GtkWidget* create_computer_submenu(AppMenuButton *self) {
         gtk_image_set_pixel_size(GTK_IMAGE(icon), 16);
         gtk_box_append(GTK_BOX(button_box), icon);
         
-        GtkWidget *label = gtk_label_new(system_commands[i].label);
+        GtkWidget *label = gtk_label_new(_(system_commands[i].label));
         gtk_label_set_xalign(GTK_LABEL(label), 0.0);
         gtk_box_append(GTK_BOX(button_box), label);
         
@@ -128,16 +129,16 @@ static struct {
     const gchar *display_name;
     const gchar *icon;
 } app_categories[] = {
-    {"AudioVideo", "Audio y Video", "applications-multimedia"},
-    {"Development", "Desarrollo", "applications-development"},
-    {"Education", "Educación", "applications-science"},
-    {"Game", "Juegos", "applications-games"},
-    {"Graphics", "Gráficos", "applications-graphics"},
-    {"Network", "Internet", "applications-internet"},
-    {"Office", "Oficina", "applications-office"},
-    {"Settings", "Configuración", "preferences-system"},
-    {"System", "Sistema", "applications-system"},
-    {"Utility", "Utilidades", "applications-utilities"},
+    {"AudioVideo", N_("Audio & Video"), "applications-multimedia"},
+    {"Development", N_("Development"), "applications-development"},
+    {"Education", N_("Education"), "applications-science"},
+    {"Game", N_("Games"), "applications-games"},
+    {"Graphics", N_("Graphics"), "applications-graphics"},
+    {"Network", N_("Internet"), "applications-internet"},
+    {"Office", N_("Office"), "applications-office"},
+    {"Settings", N_("Settings"), "preferences-system"},
+    {"System", N_("System"), "applications-system"},
+    {"Utility", N_("Utilities"), "applications-utilities"},
     {NULL, NULL, NULL}
 };
 
@@ -232,7 +233,7 @@ static void app_menu_button_init(AppMenuButton *self) {
     // Crear un botón normal
     self->menu_button = gtk_button_new();
     gtk_button_set_icon_name(GTK_BUTTON(self->menu_button), "start-here-symbolic");
-    gtk_widget_set_tooltip_text(self->menu_button, "Menú de Aplicaciones");
+    gtk_widget_set_tooltip_text(self->menu_button, _("Applications Menu"));
     gtk_widget_add_css_class(self->menu_button, "app-menu-button");
     gtk_box_append(GTK_BOX(self), self->menu_button);
 
@@ -336,8 +337,8 @@ static void build_main_menu(AppMenuButton *self) {
         gtk_image_set_pixel_size(GTK_IMAGE(icon), 16);
         gtk_box_append(GTK_BOX(button_box), icon);
         
-        // Etiqueta
-        GtkWidget *label = gtk_label_new(app_categories[i].display_name);
+        // Etiqueta (con traducción)
+        GtkWidget *label = gtk_label_new(_(app_categories[i].display_name));
         gtk_label_set_xalign(GTK_LABEL(label), 0.0);
         gtk_box_append(GTK_BOX(button_box), label);
         

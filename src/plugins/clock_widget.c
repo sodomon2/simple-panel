@@ -1,4 +1,5 @@
 #include "clock_widget.h"
+#include "../i18n.h"
 #include <time.h>
 
 struct _ClockWidget {
@@ -48,7 +49,7 @@ static void on_clock_button_clicked(GtkButton *button G_GNUC_UNUSED, gpointer us
 static void clock_widget_init(ClockWidget *self) {
     // Crear botón que contendrá el reloj
     self->clock_button = gtk_button_new();
-    gtk_widget_set_tooltip_text(self->clock_button, "Mostrar calendario");
+    gtk_widget_set_tooltip_text(self->clock_button, _("Show calendar"));
     gtk_box_append(GTK_BOX(self), self->clock_button);
     
     // Crear etiqueta del reloj
